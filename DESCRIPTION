@@ -9,8 +9,7 @@ Authors@R:
            comment = c(ORCID = "https://orcid.org/0000-0002-2391-1312"))
 Description: Compendium of a research about Rio de Janeiro's penal system. 
     It garantees its reproducibility. 
-License: `use_mit_license()`, `use_gpl3_license()` or friends to
-    pick a license
+License: CC BY 4.0
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
@@ -22,6 +21,9 @@ Imports:
     pdftools,
     stringr,
     magrittr,
-    assertthat
+    assertthat,
+    purrr
 URL: https://github.com/davidmaciel/carcere2
 BugReports: https://github.com/davidmaciel/carcere2/issues
+Suggests: 
+    testthat

@@ -23,3 +23,5 @@ Imports:
     stringr,
     magrittr,
     assertthat
+URL: https://github.com/davidmaciel/carcere2
+BugReports: https://github.com/davidmaciel/carcere2/issues

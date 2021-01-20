@@ -22,8 +22,12 @@ Imports:
     stringr,
     magrittr,
     assertthat,
-    purrr
+    purrr,
+    tibble,
+    dplyr
 URL: https://github.com/davidmaciel/carcere2
 BugReports: https://github.com/davidmaciel/carcere2/issues
 Suggests: 
     testthat
+Depends: 
+    R (>= 2.10)

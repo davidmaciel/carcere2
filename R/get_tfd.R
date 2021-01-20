@@ -12,8 +12,7 @@
 #'   get_pdf("data-raw/fulano.pdf")
 #' }
 get_tfd <- function(file){
-  assertthat::assert_that(
-    assertthat::is.readable(file), msg = "File is not readable")
+  assertthat::assert_that(grepl("pdf$",file), msg = "File is not readable")
   pdftools::pdf_text(file) %>%
     stringr::str_subset("Transcri\u00e7\u00e3o da Ficha Disciplinar")
 }

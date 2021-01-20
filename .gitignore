@@ -2,3 +2,5 @@
 .Rhistory
 .RData
 data-raw/leandro.pdf
+r/sysdata.rds
+r/extract_ocor.R

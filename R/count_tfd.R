@@ -39,6 +39,12 @@ extract_var <- function(x, pat){
   stringr::str_match(x,pat) %>% .[1,2]
 }
 
+extract_all_var <- function(x, pat){
+  stringr::str_match_all(x,pat) %>%
+    purrr::pluck(1) %>%
+    .[,2]
+}
+
 interp_str <- function(x){
   #numero de celulas com valores
   n_valor <- str_detect(x, "") %>% sum()
@@ -52,4 +58,9 @@ interp_str <- function(x){
     c(x[1:2], "", x[3], "", x[4])
   }
 
+}
+
+clean_string <- function(x){
+  x %>% stringr::str_trim() %>%
+    stringr::str_squish()
 }

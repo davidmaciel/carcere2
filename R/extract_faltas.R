@@ -1,12 +1,3 @@
-################
-url <- execs$url[sample(1:nrow(execs),1)]
-# url <- "data-raw/leandro.pdf"
-tfd <- get_tfd(url) %>%
-  organize_tfd() %>% collapse_tfd() %>%
-  dplyr::last()
-cat(tfd)
-recorta_falta(tfd)
-extract_falta(tfd)
 
 ################
 recorta_falta <- function(x){
@@ -14,7 +5,7 @@ recorta_falta <- function(x){
   x <- stringr::str_remove_all(x, '"')
   pat <- paste0("Faltas Disciplinares\\:?(",
                 classe, "+)?(Prontu\u00e1rio emitido|Regalias|relatorioTranscricaoDisciplinar|PROC)")
-  faltas <- str_match(x,pat)[,2]
+  faltas <- stringr::str_match(x,pat)[,2]
   if(grepl("Regalias|Benef\u00edcios",faltas)){
     stringr::str_remove(faltas, paste0("Regalias", classe, "+"))
   } else {
@@ -46,5 +37,5 @@ obs = paste0("Obs?erva\u00e7\u00e3o:(\\s?",
 
 )
 purrr::map_dfc(pats, extract_all_var, x = rec) %>%
-  dplyr::mutate(across(everything(), clean_string))
+  dplyr::mutate(dplyr::across(dplyr::everything(), clean_string))
 }

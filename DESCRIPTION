@@ -25,10 +25,13 @@ Imports:
     purrr,
     tibble,
     dplyr,
-    httr
+    httr,
+    tidyselect
 URL: https://github.com/davidmaciel/carcere2
 BugReports: https://github.com/davidmaciel/carcere2/issues
 Suggests: 
-    testthat
+    testthat,
+    knitr,
+    rmarkdown
 Depends: 
     R (>= 2.10)

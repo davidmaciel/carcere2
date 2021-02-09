@@ -1,9 +1,14 @@
 
-sample_url <- function(size){
-  if(!"execs" %in% ls(envir = globalenv())){
-  load("R/sysdata.rda", envir = globalenv())
-  }
+sample_url <- function(size, ano = NULL){
+  if(!is.null(ano)){
+    ano <- enquo(ano)
+    execs %>% dplyr::filter(ano == !!ano) %>%
+      sample_n(size) %>%
+      pull(url)
+
+  } else{
   sample(execs$url,size)
+  }
 }
 
 get_size <- function(url){

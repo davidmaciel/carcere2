@@ -5,3 +5,5 @@ data-raw/leandro.pdf
 r/sysdata.rda
 r/extract_ocor.R
 data
+other
+inst/doc

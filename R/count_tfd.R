@@ -36,7 +36,8 @@ get_proc_number <- function(x){
 }
 
 extract_var <- function(x, pat){
-  stringr::str_match(x,pat) %>% .[1,2]
+  stringr::str_match(x,pat)[,2] %>%
+    subset(!is.na(.)) %>% .[1]
 }
 
 extract_all_var <- function(x, pat){

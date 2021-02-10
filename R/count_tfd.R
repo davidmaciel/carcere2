@@ -43,7 +43,7 @@ extract_var <- function(x, pat){
 extract_all_var <- function(x, pat){
   stringr::str_match_all(x,pat) %>%
     purrr::pluck(1) %>%
-    .[,2]
+    .[,2] %>% subset(!is.na(.))
 }
 
 interp_str <- function(x){

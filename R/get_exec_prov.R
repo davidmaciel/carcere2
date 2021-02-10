@@ -1,54 +1,28 @@
 
 
-subset_exec <- function(file){
-  pdf <- pdftools::pdf_text(file)
-  stringr::str_subset(pdf,"Execu\u00e7\u00e3o Provis\u00f3ria")
-}
-
-get_exec_num <- function(x){
-  pat <- "Execu\u00e7\u00e3o Provis\u00f3ria\r\n\\s+N\u00ba\\s*(\\d{4}\\.\\d{3}\\.\\d{6}-\\d{1})"
-  stringr::str_match(x, pat)[,2] %>%
-    subset(!is.na(.)) %>% unique()
-}
-
-get_n_distinct_exec <- function(x){
-  pat <- "Execu\u00e7\u00e3o Provis\u00f3ria\r\n\\s+N\u00ba\\s*(\\d{4}\\.\\d{3}\\.\\d{6}-\\d{1})"
-  stringr::str_match(x, pat)[,2] %>%
-    subset(!is.na(.)) %>% unique() %>% length()
-}
-
-get_exec <- function(x, exec_num) {
-  pat <- paste0(
-    "Execu\u00e7\u00e3o Provis\u00f3ria\r\n\\s+N\u00ba\\s*",
-    exec_num)
-  stringr::str_subset(x, exec_num)
-}
-
-get_exec_pages <- function(x, exec_num){
-  exec <- get_exec(x, exec_num)
-  pat <- "P\u00e1g\\s*:\\s*\\d{1}"
-  stringr::str_match(exec, pat)
-}
-
 get_socio_exec_prov <- function(x){
 pats <- list(
-  nome = "Nome:\\s*(.+)?\r\n",
-apelido = "Outros nomes\\/Alcunhas:\\s*(.+)?\r\n",
-pai = "Nome do Pai:\\s*(.+)?\r\n",
-mae = "Nome do M\u00e3e:\\s*(.+)?\r\n",
+  exec_prov_num = "Execu\u00e7\u00e3o Provis\u00f3ria\r\n\\s+N[\u00ba\u00b0oe]\\s*(\\d{4}\\.\\d{3}\\.\\d{6}\\s*-\\s*\\d{1})",
+  exec_num = "Processo:\\s*(\\d{7}\\-\\d{2}\\.\\d{4}\\.\\d{1}\\.\\d{2}\\.\\d{4})",
+  nome = "Nome:(.+)?\r\n",
+apelido = "Outros nomes\\/Alcunhas:(.+)?\r\n|Nome do Pai",
+pai = "Nome do Pai:(.+)?\r\n",
+mae = "Nome do M\u00e3e:(.+)?\r\n",
 sexo = "Sexo:\\s*(Masculino|Feminino)",
-raca = "Cor:\\s*(\\w+)",
-data_nasc = "Data\\s*Nasc\\.:\\s*(\\d{2}/\\d{2}/\\d{4})",
-cidade_nasc = "Cidade\\/UF:\\s*(.+)?Pa\u00eds",
-pais_nasc = "Pa\u00eds:\\s*(.+)?\r\n",
-est_civil = "Estado Civil:\\s(.+)?\r\n",
-ensino = "Grau de Instru\u00e7\u00e3o:\\s*(.+)?Profiss",
-profissao = "Profiss\u00e3\u006f:\\s*(.+)?\r\n"
+raca = "Cor:([\\w\\s]+)?Estado Civil",
+data_nasc = "Data\\s*Nasc\\.:\\s*(\\d{2}[/1]\\d{2}[/1]\\d{4})",
+cidade_nasc = "Cidade\\/UF:(.+)?Pa\u00eds",
+pais_nasc = "Pa\u00eds:(.+)?\r\n",
+est_civil = "Estado Civil:(.+)?\r\n",
+ensino = "Grau de Instru\u00e7\u00e3o:(.+)?Profiss",
+profissao = "Profiss\u00e3\u006f:(.+)?\r\n"
 )
-purrr::map_dfc(pats, extract_var, x = exec) %>%
+purrr::map_dfc(pats, extract_var, x = x) %>%
   dplyr::mutate(dplyr::across(
     tidyselect:::where(is.character),
-    clean_string))
+    clean_string)) %>%
+  naniar::replace_with_na_all(condition = ~grepl("N\u00e3o Informado", .x)
+  )
 }
 
 

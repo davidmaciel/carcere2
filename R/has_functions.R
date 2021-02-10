@@ -1,10 +1,10 @@
 
 sample_url <- function(size, ano = NULL){
   if(!is.null(ano)){
-    ano <- enquo(ano)
+    ano <- dplyr::enquo(ano)
     execs %>% dplyr::filter(ano == !!ano) %>%
-      sample_n(size) %>%
-      pull(url)
+      dplyr::sample_n(size) %>%
+      dplyr::pull(url)
 
   } else{
   sample(execs$url,size)
